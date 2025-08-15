@@ -10,7 +10,7 @@ const Manager = () => {
     const ref = useRef();
     const passRef = useRef();
 
-
+    const url="https://passlocker-backend.onrender.com"
     //LOCAL STORAGE-
     // useEffect(() => {
     //     let passString = localStorage.getItem("passwords")
@@ -25,7 +25,7 @@ const Manager = () => {
     // }
 
     const getPasswords = async () => {
-        let req = await fetch("http://localhost:3000/")
+        let req = await fetch(url)
         let passwords = await req.json()
         setPassArray(passwords)
     }
@@ -43,7 +43,7 @@ const Manager = () => {
         if (form.site.length > 0 && form.username.length > 0 && form.password.length > 0) {
 
             setPassArray([...passArray, { ...form, id: uuidv4() }])
-            await fetch("http://localhost:3000/", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...form, id: uuidv4() }) })
+            await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...form, id: uuidv4() }) })
 
             setForm({ site: "", username: "", password: "" })
             toast('Password saved!', {
@@ -105,8 +105,8 @@ const Manager = () => {
         if (c) {
             setPassArray(passArray.filter(item => item.id !== id))
             
-            await fetch("http://localhost:3000/", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id }) })
-            await fetch("http://localhost:3000/", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({id:form.id }) })
+            await fetch(url, { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id }) })
+            await fetch(url, { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({id:form.id }) })
 
             toast('Password Deleted!', {
                 position: "top-right",
